@@ -34,7 +34,7 @@ function Introduction() {
         </Heading>
         <Text fontSize={"18px"}>
           Staker is a platform where you can stack your Ethereum Currency and
-          Earn 0.01 Eth on each minute after you stake the money. Make sure to
+          Earn 0.001 Eth on each second after you stake the money. Make sure to
           stake the money during staking period and claim the reward during the
           Claim period. So what are you waiting for ?
         </Text>
