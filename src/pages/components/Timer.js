@@ -1,57 +1,93 @@
 import React, { useEffect, useState } from "react";
-import { Box, HStack } from "@chakra-ui/react";
-const Timer = ({ deadline, stakeTimeUpdator }) => {
-  const [days, setDays] = React.useState(0);
-  const [hours, setHours] = React.useState(0);
-  const [minutes, setMinutes] = React.useState(0);
-  const [seconds, setSeconds] = React.useState(50);
+import { Box, HStack, Text } from "@chakra-ui/react";
+let interval = 0;
+const Timer = ({ deadline, timeUpdator, deadlineSetter, title }) => {
+  const [days, setDays] = useState(0);
+  const [hours, setHours] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
 
   const getTime = () => {
-    const time = deadline - new Date();
-    let totalSeconds = new Date(time).getSeconds();
-    stakeTimeUpdator(totalSeconds);
-    setDays(Math.floor(time / (1000 * 60 * 60 * 24)));
-    setHours(Math.floor((time / (1000 * 60 * 60)) % 24));
-    setMinutes(Math.floor((time / 1000 / 60) % 60));
-    setSeconds(Math.floor((time / 1000) % 60));
+    let currentTime = parseInt(Date.now() / 1000);
+    const time = deadline - currentTime;
+    // console.log({
+    //   title,
+    //   currentTime,
+    //   deadline,
+    //   time,
+    // });
+
+    if (time >= 0) {
+      timeUpdator(time);
+    } else {
+      timeUpdator(0);
+
+      deadlineSetter(null);
+      clearInterval(interval);
+
+      return 0;
+    }
+    let days = Math.floor(time / (60 * 60 * 24));
+    setDays(days);
+    let hours = Math.floor((time / (60 * 60)) % 24);
+
+    setHours(hours);
+    let min = Math.floor((time / 60) % 60);
+    setMinutes(min);
+    let sec = Math.floor(time % 60);
+    setSeconds(sec);
   };
 
-  React.useEffect(() => {
-    const interval = setInterval(() => getTime(deadline), 1000);
-
-    return () => clearInterval(interval);
+  useEffect(() => {
+    interval = setInterval(() => getTime(deadline), 1000);
   }, []);
 
   return (
     <HStack
+      key={title + "timer"}
+      as={"div"}
       direction={["column", "column", "row"]}
       fontSize={"20px"}
-      className="timer"
-      role="timer"
     >
-      {days && (
+      {days > 0 && (
         <>
           {" "}
-          <p id="day">{days}</p>
-          <span className="text">Days</span>
+          <Text key={"day"} id="day">
+            {days}
+          </Text>
+          <Text key={"dayTitle"} className="text">
+            Days
+          </Text>
         </>
       )}
-      {hours && (
+      {hours > 0 && (
         <>
-          <p id="hour">{hours}</p>
-          <span className="text">Hours</span>
+          <Text key={"hour"} id="hour">
+            {hours}
+          </Text>
+          <Text key={"hourCaption"} className="text">
+            Hours
+          </Text>
         </>
       )}
-      {minutes && (
+      {minutes > 0 && (
         <>
-          <p id="minute">{minutes}</p>
-          <span className="text">Minutes</span>
+          <Text key={"min"} id="minute">
+            {minutes}
+          </Text>
+          <Text key={"minCaption"} className="text">
+            Minutes
+          </Text>
         </>
       )}
-      {seconds && (
+      {seconds > 0 && (
         <>
-          <p id="second">{seconds}</p>
-          <span className="text">Seconds</span>
+          <Text key={"sec"} id="second">
+            {seconds}
+          </Text>
+          <Text key={"secCaption"} className="text">
+            Seconds
+          </Text>
         </>
       )}
     </HStack>

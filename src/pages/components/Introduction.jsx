@@ -1,27 +1,34 @@
-import { Box, Button, Heading, HStack, VStack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Heading,
+  HStack,
+  VStack,
+  Text,
+  Stack,
+  Img,
+} from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
 
 function Introduction() {
   return (
-    <HStack
+    <Stack
       width={"100vw"}
-      height={"100vh"}
-      backgroundImage={`url("./intro_bg.png")`}
-      backgroundSize={"cover"}
+      minH={"100vh"}
+      bg={"black"}
+      height={"fit-content"}
       color={"white"}
-      padding={"10vw"}
+      justify={"center"}
+      align={"center"}
+      paddingTop={["15vh", "10vh", "5vh"]}
+      direction={["column", "column", "column", "row"]}
     >
-      <VStack
-        width={["80vw", "70vw", "60vw", "30vw"]}
-        align={["left"]}
-        spacing={5}
-        height={"100%"}
-      >
+      <VStack paddingLeft={"5vw"} width={["70vw"]} spacing={5} align={"left"}>
         <Heading
           fontFamily={"sans-serif"}
           fontWeight={"900"}
-          fontSize={["2.5em", "3.5em", "4.5em"]}
+          fontSize={["2.5em", "2.5em", "3.5em", "5.5em"]}
         >
           Earn while you sleep
         </Heading>
@@ -37,7 +44,14 @@ function Introduction() {
           </Button>
         </Link>
       </VStack>
-    </HStack>
+      <Img
+        justify={"center"}
+        width={["100%", "80%", "60%"]}
+        height={["80%", "70%", "60%"]}
+        objectFit={"contain"}
+        src="./intro_bg.png"
+      />
+    </Stack>
   );
 }
 
